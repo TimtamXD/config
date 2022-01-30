@@ -1,0 +1,187 @@
+# disable screensaver
+exec_always xset -dpms
+exec_always xset s noblank
+exec_always xset s off
+
+# set modifier to windows key
+set $mod Mod4
+
+# default border 2160p
+new_window pixel 2
+new_float pixel 2
+
+# Fonts
+set $font xft:JetBrains Mono 10
+
+# font for window titles and default for bar
+font $font
+
+# use mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# terminal
+set $terminal terminator
+bindsym $mod+Return exec --no-startup-id $terminal
+
+# browser
+set $browser google-chrome-stable
+bindsym $mod+Shift+Return exec --no-startup-id $browser
+
+# Menu
+set $menu "dmenu_run"
+bindsym $mod+space exec --no-startup-id $menu
+
+# change focus                                    ($mod+[hjkl])
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# move focused window                       ($mod+shift+[hjkl])
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# resize window                           ($mod+control+[hjkl])
+bindsym $mod+Control+h resize shrink width 4 px or 4 ppt
+bindsym $mod+Control+j resize grow height 4 px or 4 ppt
+bindsym $mod+Control+k resize shrink height 4 px or 4 ppt
+bindsym $mod+Control+l resize grow width 4 px or 4 ppt
+
+# fine resize window                ($mod+Control+Shift+[hjkl])
+bindsym $mod+Control+Shift+h resize shrink width 1 px or 1 ppt
+bindsym $mod+Control+Shift+j resize grow height 1 px or 1 ppt
+bindsym $mod+Control+Shift+k resize shrink height 1 px or 1 ppt
+bindsym $mod+Control+Shift+l resize grow width 1 px or 1 ppt
+
+# split horizontal / vertical
+bindsym $mod+b split h
+bindsym $mod+v split v
+
+# enter fullscreen for focused container
+bindsym $mod+f fullscreen
+
+# switch to latest urgent window
+bindsym $mod+x [urgent=latest] focus
+
+
+# change container layout (stacked, tabbed, toggle split)
+#bindsym $mod+e layout default
+#bindsym $mod+s layout stacking
+#bindsym $mod+w layout tabbed
+#bindsym $mod+Shift+d layout toggle split
+
+set $workspace_1 "1"
+set $workspace_2 "2"
+set $workspace_3 "3"
+set $workspace_4 "4"
+set $workspace_5 "5"
+set $workspace_6 "6"
+set $workspace_7 "7"
+set $workspace_8 "8"
+set $workspace_9 "9"
+set $workspace_10 "10"
+
+# switch to workspace
+bindsym $mod+1 workspace $workspace_1
+bindsym $mod+2 workspace $workspace_2
+bindsym $mod+3 workspace $workspace_3
+bindsym $mod+4 workspace $workspace_4
+bindsym $mod+5 workspace $workspace_5
+bindsym $mod+6 workspace $workspace_6
+bindsym $mod+7 workspace $workspace_7
+bindsym $mod+8 workspace $workspace_8
+bindsym $mod+9 workspace $workspace_9
+bindsym $mod+0 workspace $workspace_10
+
+# quickly switch between current and previous workspace
+bindsym $mod+Tab workspace back_and_forth
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $workspace_1
+bindsym $mod+Shift+2 move container to workspace $workspace_2
+bindsym $mod+Shift+3 move container to workspace $workspace_3
+bindsym $mod+Shift+4 move container to workspace $workspace_4
+bindsym $mod+Shift+5 move container to workspace $workspace_5
+bindsym $mod+Shift+6 move container to workspace $workspace_6
+bindsym $mod+Shift+7 move container to workspace $workspace_7
+bindsym $mod+Shift+8 move container to workspace $workspace_8
+bindsym $mod+Shift+9 move container to workspace $workspace_9
+bindsym $mod+Shift+0 move container to workspace $workspace_10
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+d focus mode_toggle
+
+# container focus parent / child
+bindsym $mod+p focus parent
+bindsym $mod+c focus child
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 in-place (preserves)
+bindsym $mod+Shift+r restart
+
+# kill window
+bindsym $mod+q kill
+
+
+# Colorscheme #https://ethanschoonover.com/solarized/
+set $base03    #002b36
+set $base02    #073642
+set $base01    #586e75
+set $base00    #657b83
+set $base0     #839496
+set $base1     #93a1a1
+set $base2     #eee8d5
+set $base3     #fdf6e3
+set $yellow    #b58900
+set $orange    #cb4b16
+set $red       #dc322f
+set $magenta   #d33682
+set $violet    #6c71c4
+set $blue      #268bd2
+set $cyan      #2aa198
+set $green     #859900
+
+# Dark Theme
+# <colorclass>          <bdr>   <bkg>   <text>  <idctr> <child_border>
+client.focused          $base01 $blue   $base3  $yellow
+client.unfocused        $base02 $base02 $base0  $yellow
+client.focused_inactive $base02 $base02 $base0  $yellow
+client.urgent           $base02 $red    $base2  $yellow
+
+
+bar {
+    status_command i3status
+    separator_symbol " | "
+    position top
+        colors {
+        background $base02
+        statusline $base0
+        separator  $base01
+        # <colorclass>     <bdr>   <bkg>   <text>
+        focused_workspace  $base1  $blue   $base2
+        active_workspace   $base1  $base01 $base2
+        inactive_workspace $base01 $base02 $base1
+        urgent_workspace   $base1  $red    $base2
+    }
+}
+
+bindsym Print exec "flameshot gui"
+# windows+tilda
+bindsym $mod+grave exec "flameshot gui"
+
+bindsym XF86AudioMute           exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioLowerVolume    exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioRaiseVolume    exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+
+# pop-ups & dialogs
+for_window [window_role="^task_dialog$"] floating enable, move position center
+for_window [window_role="^pop-up$"] floating enable, move position center
+for_window [title="^pop-up$"] floating enable, move position center
+for_window [instance="^pop-up$"] floating enable, move position center
